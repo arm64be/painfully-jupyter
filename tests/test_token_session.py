@@ -23,7 +23,7 @@ def test_broker_serves_setup_script_over_plain_http() -> None:
 
 async def _broker_serves_setup_script_over_plain_http() -> None:
     async with FakeBroker(
-        public_url="wss://dev.tsuku.re/its-so-painfully-jupyter/",
+        public_url="wss://broker.example.invalid/painfully-jupyter/",
         helper_package="git+https://github.com/arm64be/painfully-jupyter.git@test",
     ) as broker:
         assert broker.url is not None
@@ -34,7 +34,7 @@ async def _broker_serves_setup_script_over_plain_http() -> None:
         )
 
     assert body.startswith("#!/usr/bin/env bash")
-    assert "wss://dev.tsuku.re/its-so-painfully-jupyter/" in body
+    assert "wss://broker.example.invalid/painfully-jupyter/" in body
     assert "git+https://github.com/arm64be/painfully-jupyter.git@test" in body
     assert "painfully_jupyter.remote_helper" in body
     assert "venv is unavailable; using local pip target install" in body

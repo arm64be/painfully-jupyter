@@ -1,0 +1,35 @@
+{
+  "name": "painfully-jupyter",
+  "version": "0.1.0",
+  "description": "Operate remote notebook sessions from Codex through Painfully Jupyter.",
+  "author": {
+    "name": "arm64be"
+  },
+  "homepage": "https://github.com/arm64be/painfully-jupyter",
+  "repository": "https://github.com/arm64be/painfully-jupyter",
+  "keywords": [
+    "jupyter",
+    "notebook",
+    "kaggle",
+    "mcp",
+    "remote-session"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Painfully Jupyter",
+    "shortDescription": "Set up and use remote notebook sessions through a broker-backed MCP server.",
+    "longDescription": "Painfully Jupyter helps Codex pair with a helper process inside a cloud notebook, upload allowlisted project files, run commands, stream output, write stdin, and fetch artifacts through a user-hosted broker.",
+    "developerName": "arm64be",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Remote notebooks",
+      "MCP",
+      "File sync",
+      "Command execution"
+    ],
+    "websiteURL": "https://github.com/arm64be/painfully-jupyter",
+    "defaultPrompt": [
+      "Use the Painfully Jupyter remote notebook skill to set up and operate a remote notebook session."
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "painfully-jupyter",
+  "interface": {
+    "displayName": "Painfully Jupyter"
+  },
+  "plugins": [
+    {
+      "name": "painfully-jupyter",
+      "source": {
+        "source": "local",
+        "path": "./plugins/painfully-jupyter"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
