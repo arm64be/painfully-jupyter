@@ -37,6 +37,8 @@ async def _broker_serves_setup_script_over_plain_http() -> None:
     assert "wss://dev.tsuku.re/its-so-painfully-jupyter/" in body
     assert "git+https://github.com/arm64be/painfully-jupyter.git@test" in body
     assert "painfully_jupyter.remote_helper" in body
+    assert "venv is unavailable; using local pip target install" in body
+    assert 'install --upgrade --target "$helper_dir/site"' in body
 
 
 async def _claim_token_can_be_used_once(tmp_path: Path) -> None:

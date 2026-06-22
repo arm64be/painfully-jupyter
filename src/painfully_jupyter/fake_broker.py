@@ -263,12 +263,36 @@ else
     exit 1
 fi
 
-"$python_bin" -m venv "$helper_dir/venv"
-"$helper_dir/venv/bin/python" -m pip install --upgrade pip >/dev/null
-"$helper_dir/venv/bin/python" -m pip install --upgrade "$helper_package"
+rm -rf "$helper_dir"
+mkdir -p "$helper_dir"
+
+if "$python_bin" -m venv "$helper_dir/venv" >/dev/null 2>&1; then
+    "$helper_dir/venv/bin/python" -m pip install --upgrade pip >/dev/null
+    "$helper_dir/venv/bin/python" -m pip install --upgrade "$helper_package"
+    helper_python="$helper_dir/venv/bin/python"
+    helper_pythonpath=""
+else
+    echo "Painfully Jupyter setup: venv is unavailable; using local pip target install" >&2
+    if "$python_bin" -m pip --version >/dev/null 2>&1; then
+        pip_cmd=("$python_bin" -m pip)
+    elif command -v pip3 >/dev/null 2>&1; then
+        pip_cmd=(pip3)
+    elif command -v pip >/dev/null 2>&1; then
+        pip_cmd=(pip)
+    else
+        echo "Painfully Jupyter setup failed: pip is required when venv/ensurepip is unavailable" >&2
+        exit 1
+    fi
+    "${{pip_cmd[@]}}" install --upgrade --target "$helper_dir/site" "$helper_package"
+    helper_python="$python_bin"
+    helper_pythonpath="$PWD/$helper_dir/site"
+fi
 
 echo "Painfully Jupyter Remote Helper connecting to $broker_url" >&2
-exec "$helper_dir/venv/bin/python" -c 'from painfully_jupyter.remote_helper import main; main()' "$broker_url" --cwd "$PWD"
+if [ -n "$helper_pythonpath" ]; then
+    export PYTHONPATH="$helper_pythonpath${{PYTHONPATH:+:$PYTHONPATH}}"
+fi
+exec "$helper_python" -c 'from painfully_jupyter.remote_helper import main; main()' "$broker_url" --cwd "$PWD"
 """
 
 
