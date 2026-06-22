@@ -8,7 +8,7 @@ version = "0.1.0"
 description = "Local MCP control of one claimed remote notebook helper through a user-hosted broker."
 requires-python = ">=3.11"
 dependencies = [
-  "websockets>=12,<16",
+  "websockets>=15,<16",
 ]
 
 [project.optional-dependencies]

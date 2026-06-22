@@ -45,7 +45,7 @@ test = [
 [package.metadata]
 requires-dist = [
     { name = "pytest", marker = "extra == 'test'", specifier = ">=8" },
-    { name = "websockets", specifier = ">=12,<16" },
+    { name = "websockets", specifier = ">=15,<16" },
 ]
 provides-extras = ["test"]
 

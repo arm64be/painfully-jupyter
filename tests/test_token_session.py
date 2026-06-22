@@ -1,6 +1,7 @@
 from pathlib import Path
 import asyncio
 import contextlib
+import urllib.request
 
 import pytest
 
@@ -14,6 +15,28 @@ from painfully_jupyter.remote_helper import RemoteHelper
 
 def test_claim_token_can_be_used_once(tmp_path: Path) -> None:
     asyncio.run(_claim_token_can_be_used_once(tmp_path))
+
+
+def test_broker_serves_setup_script_over_plain_http() -> None:
+    asyncio.run(_broker_serves_setup_script_over_plain_http())
+
+
+async def _broker_serves_setup_script_over_plain_http() -> None:
+    async with FakeBroker(
+        public_url="wss://dev.tsuku.re/its-so-painfully-jupyter/",
+        helper_package="git+https://github.com/arm64be/painfully-jupyter.git@test",
+    ) as broker:
+        assert broker.url is not None
+        http_url = broker.url.replace("ws://", "http://", 1) + "/"
+
+        body = await asyncio.to_thread(
+            lambda: urllib.request.urlopen(http_url, timeout=5).read().decode("utf-8")
+        )
+
+    assert body.startswith("#!/usr/bin/env bash")
+    assert "wss://dev.tsuku.re/its-so-painfully-jupyter/" in body
+    assert "git+https://github.com/arm64be/painfully-jupyter.git@test" in body
+    assert "painfully_jupyter.remote_helper" in body
 
 
 async def _claim_token_can_be_used_once(tmp_path: Path) -> None:
