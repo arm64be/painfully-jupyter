@@ -1,0 +1,26 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "painfully-jupyter"
+version = "0.1.0"
+description = "Local MCP control of one claimed remote notebook helper through a user-hosted broker."
+requires-python = ">=3.11"
+dependencies = [
+  "websockets>=12,<16",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8",
+]
+
+[project.scripts]
+painfully-jupyter-mcp = "painfully_jupyter.mcp_server:main"
+painfully-jupyter-helper = "painfully_jupyter.remote_helper:main"
+painfully-jupyter-fake-broker = "painfully_jupyter.fake_broker:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
